@@ -19,7 +19,8 @@ describe('app routes', () => {
   });
 
   afterAll(() => {
-    return mongoose.connection.close();
+    return mongoose.connection.close()
+      .then(() => mongo.stop());
   });
 
   it('it creates a new dog', () => {
