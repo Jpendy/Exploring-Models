@@ -22,7 +22,6 @@ describe('app routes', () => {
     return mongoose.connection.close();
   });
 
-
   it('it creates a new dog', () => {
     return request(app)
       .post('/dogs')
@@ -85,15 +84,21 @@ describe('app routes', () => {
       description: 'Big happy and cuddly'
     });
     
-    const newDescription = 'Super smiley and chill';
-    
+    const newDog = {
+      newBreed: 'Golden Labrador',
+      newDescription: 'Super smiley and chill'
+    };
+   
     return request(app)
       .patch(`/dogs/${dog._id}`)
-      .send({ description: newDescription })
+      .send({ 
+        dogBreed: newDog.newBreed,
+        description: newDog.newDescription 
+      })
       .then(res => {
         expect(res.body).toEqual({
           _id: dog.id,
-          dogBreed: 'Black Lab',
+          dogBreed: 'Golden Labrador',
           description: 'Super smiley and chill',
           __v: 0
         });
