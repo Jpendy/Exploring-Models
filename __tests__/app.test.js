@@ -79,6 +79,42 @@ describe('app routes', () => {
 
   });
 
+  it('it updates something in the dog by id', async() => {
+    const dog = await Dog.create({
+      dogBreed: 'Black Lab',
+      description: 'Big happy and cuddly'
+    });
+    
+    const newDescription = 'Super smiley and chill';
+    
+    return request(app)
+      .patch(`/dogs/${dog._id}`)
+      .send({ description: newDescription })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: dog.id,
+          dogBreed: 'Black Lab',
+          description: 'Super smiley and chill',
+          __v: 0
+        });
+      });
+  });
 
-  
+  it('it deletes a dog by id', async() => {
+    const dog = await Dog.create({
+      dogBreed: 'Black Lab',
+      description: 'Big happy and cuddly'
+    });
+
+    return request(app)
+      .delete(`/dogs/${dog._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: dog.id,
+          dogBreed: 'Black Lab',
+          description: 'Big happy and cuddly',
+          __v: 0
+        });
+      });
+  });
 });
